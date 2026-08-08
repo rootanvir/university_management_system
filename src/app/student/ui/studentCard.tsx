@@ -1,6 +1,6 @@
 "use client";
 
-export default function StudentCard() {
+export default function Student() {
   return (
     <div className="m-10 rounded-lg border p-6 shadow-sm">
 

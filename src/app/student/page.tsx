@@ -5,7 +5,7 @@ import StudentCard from "./ui/studentCard";
 export default function Student() {
   return (
     <main>
-        <StudentCard/>
+       <StudentCard />
     </main>
   );
 }
