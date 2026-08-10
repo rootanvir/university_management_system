@@ -12,4 +12,8 @@ public class ApplicationDbContext : DbContext
     {
     }
     public DbSet<Assignment> Assignments {get;set;}
+    public DbSet<MarkSheet> MarkSheet {get;set;}
+    public DbSet<Users> Users  {get;set;}
+    public DbSet<Courses> Courses  {get;set;}
+    
 }
