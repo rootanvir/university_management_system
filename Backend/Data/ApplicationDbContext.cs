@@ -15,5 +15,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<MarkSheet> MarkSheet {get;set;}
     public DbSet<Users> Users  {get;set;}
     public DbSet<Courses> Courses  {get;set;}
+    public DbSet<Session> Sessions { get; set; }
     
 }
