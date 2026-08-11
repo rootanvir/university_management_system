@@ -1,11 +1,50 @@
 "use client";
+import { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
 
-import { useState } from "react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const cookies = document.cookie.split("; ");
+
+    const tokenCookie = cookies.find((cookie) =>
+      cookie.startsWith("token=")
+    );
+
+    if (!tokenCookie) {
+      return;
+    }
+
+    const token = tokenCookie.split("=")[1];
+
+    try {
+      const decoded = jwtDecode<Record<string, any>>(token);
+
+      const role =
+        decoded[
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ];
+
+      if (role === "Admin") {
+        router.push("/admin");
+      } else if (role === "Teacher") {
+        router.push("/teacher");
+      } else if (role === "Student") {
+        router.push("/student");
+      }
+    } catch (error) {
+      console.error("Invalid token:", error);
+      document.cookie = "token=; path=/; max-age=0";
+    }
+  }, [router]);
+
 
   const validate = () => {
     const newErrors: { email?: string; password?: string } = {};
@@ -22,17 +61,58 @@ export default function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validate()) return;
 
-    console.log("Email:", email);
-    console.log("Password:", password);
-  };
+    try {
+        const response = await fetch(
+            "http://localhost:5039/api/auth/login",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
+            }
+        );
+
+        const responseText = await response.text();
+
+        if (!response.ok) {
+            console.log("Login failed:", responseText);
+            return;
+        }
+
+        const data = JSON.parse(responseText);
+
+        document.cookie = `token=${data.token}; path=/`;
+
+        const decoded = jwtDecode<Record<string, any>>(data.token);
+
+        const role =
+            decoded[
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+            ];
+
+        if (role === "Admin") {
+            router.push("/admin");
+        } else if (role === "Teacher") {
+            router.push("/teacher");
+        } else if (role === "Student") {
+            router.push("/student");
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+    }
+};
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center bg-green-900">
       <div className="border p-6 w-96">
         <h1 className="text-2xl mb-5">Login</h1>
 

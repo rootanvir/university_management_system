@@ -1,4 +1,4 @@
-l{
+{
   "version": 2,
   "dgSpecHash": "24/+3muCnyI=",
   "success": true,
@@ -44,6 +44,15 @@ l{
     "C:\\Users\\t4nv1r\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.19.2\\system.identitymodel.tokens.jwt.8.19.2.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "message": "Problem reading the cache file D:\\onnorokom_projukti\\Backend\\obj\\project.nuget.cache : 'l' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.",
+      "projectPath": "D:\\onnorokom_projukti\\Backend\\Backend.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\onnorokom_projukti\\Backend\\Backend.csproj",
+      "targetGraphs": []
+    },
     {
       "code": "NU1903",
       "level": "Warning",
