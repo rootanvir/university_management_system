@@ -67,49 +67,63 @@ export default function Login() {
     if (!validate()) return;
 
     try {
-        const response = await fetch(
-            "http://localhost:5039/api/auth/login",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                }),
-            }
-        );
-
-        const responseText = await response.text();
-
-        if (!response.ok) {
-            console.log("Login failed:", responseText);
-            return;
+      const response = await fetch(
+        "http://localhost:5039/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
         }
+      );
 
-        const data = JSON.parse(responseText);
+      const responseText = await response.text();
 
-        document.cookie = `token=${data.token}; path=/`;
+      if (!response.ok) {
+        console.log("Login failed:", responseText);
+        return;
+      }
 
-        const decoded = jwtDecode<Record<string, any>>(data.token);
+      const data = JSON.parse(responseText);
 
-        const role =
-            decoded[
-                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-            ];
+      if (typeof data.token !== "string") {
+        console.error("Invalid login response:", data);
+        return;
+      }
 
-        if (role === "Admin") {
-            router.push("/admin");
-        } else if (role === "Teacher") {
-            router.push("/teacher");
-        } else if (role === "Student") {
-            router.push("/student");
-        }
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          user_id: data.user_id,
+          user_name: data.user_name,
+          user_role: data.user_role
+        })
+      );
+
+      document.cookie = `token=${data.token}; path=/`;
+
+      const decoded = jwtDecode<Record<string, any>>(data.token);
+
+      const role =
+        decoded[
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ];
+
+      if (role === "Admin") {
+        router.push("/admin");
+      } else if (role === "Teacher") {
+        router.push("/teacher");
+      } else if (role === "Student") {
+        router.push("/student");
+      }
     } catch (error) {
-        console.error("Login error:", error);
+      console.error("Login error:", error);
     }
-};
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-green-900">

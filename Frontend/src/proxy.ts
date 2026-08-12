@@ -10,7 +10,6 @@ export function proxy(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
     const pathname = request.nextUrl.pathname;
 
-    // No token
     if (!token) {
         return NextResponse.redirect(
             new URL("/login", request.url)
@@ -27,7 +26,6 @@ export function proxy(request: NextRequest) {
         );
     }
 
-    // Check expiration
     if (decoded.exp && decoded.exp * 1000 < Date.now()) {
         return NextResponse.redirect(
             new URL("/login", request.url)
@@ -39,7 +37,7 @@ export function proxy(request: NextRequest) {
             "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
         ];
 
-    // Student
+  
     if (pathname.startsWith("/student")) {
         if (role === "Student") {
             return NextResponse.next();
@@ -50,7 +48,6 @@ export function proxy(request: NextRequest) {
         );
     }
 
-    // Teacher
     if (pathname.startsWith("/teacher")) {
         if (role === "Teacher") {
             return NextResponse.next();
@@ -61,7 +58,6 @@ export function proxy(request: NextRequest) {
         );
     }
 
-    // Admin
     if (pathname.startsWith("/admin")) {
         if (role === "Admin") {
             return NextResponse.next();

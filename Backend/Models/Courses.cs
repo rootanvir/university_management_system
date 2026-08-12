@@ -10,4 +10,6 @@ public class Courses
     public int course_id{get;set;}
     [Required]
     public string course_name{get;set;} = string.Empty;
+    [Required]
+    public int course_credit{get;set;} = 0;
 }

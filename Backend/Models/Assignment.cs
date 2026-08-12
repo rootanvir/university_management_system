@@ -10,17 +10,23 @@ public class Assignment
     public int assignment_id { get; set; }
 
     [Required]
-    public string assignment_course { get; set; } = string.Empty;
-
-    public string assignment_details { get; set; } = string.Empty;
-
-    [Required]
-    public string assignment_deadline { get; set; } = string.Empty;
-
-    public double assignment_mark { get; set; }
-
-    public string assignment_status { get; set; } = "Draft";
-
-    [Required]
     public string assignment_title { get; set; } = string.Empty;
+
+    [Required]
+    public string assignment_description { get; set; } = string.Empty;
+
+    [Required]
+    public DateTime assignment_deadline { get; set; }
+
+    [Required]
+    public int course_id { get; set; }
+
+    [ForeignKey("course_id")]
+    public Courses? Course { get; set; }
+
+    [Required]
+    public int teacher_id { get; set; }
+
+    [ForeignKey("teacher_id")]
+    public Users? Teacher { get; set; }
 }

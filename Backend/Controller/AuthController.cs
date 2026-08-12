@@ -107,8 +107,10 @@ public class AuthController : ControllerBase
 
         return Ok(new
         {
-            message = "Login successful",
-            token = jwt
+            token = jwt,
+            user_id = user.user_id,
+            user_name = user.user_name,
+            user_role = user.user_role
         });
     }
     [HttpPost("logout")]
