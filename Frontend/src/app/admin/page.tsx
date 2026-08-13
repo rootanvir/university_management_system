@@ -9,11 +9,11 @@ import AssignTeacher from "./ui/AssignTeacher";
 import AssignmentSubmission from "./ui/AssignmentSubmission";
 import Setting from "./ui/Setting";
 import Dashboard from "./ui/DashBoard";
+import AssignStudentCourse from "./ui/AssignStudentCourse";
 
 export default function Admin() {
   const router = useRouter();
 
-  // Stores which menu is currently selected
   const [activeMenu, setActiveMenu] = useState("dashboard");
 
   const handleLogout = async () => {
@@ -77,6 +77,9 @@ export default function Admin() {
       case "settings":
         return <Setting />;
 
+      case "studentCourses":
+        return <AssignStudentCourse />;
+
       default:
         return <Setting />;
     }
@@ -132,6 +135,15 @@ export default function Admin() {
                 }`}
             >
               Assign Teacher
+            </button>
+            <button
+              onClick={() => setActiveMenu("studentCourses")}
+              className={`cursor-pointer rounded-lg px-4 py-2 ${activeMenu === "studentCourses"
+                  ? "bg-gray-200"
+                  : "hover:bg-gray-100"
+                }`}
+            >
+              Assign Student
             </button>
 
             <button

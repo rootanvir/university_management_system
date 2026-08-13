@@ -91,4 +91,71 @@ public class AssignmentsController : ControllerBase
 
         return Ok("Assignment deleted successfully.");
     }
+    [HttpGet("student/{student_id}")]
+    public async Task<IActionResult> GetStudentAssignments(int student_id)
+    {
+        var assignments = await _dbconnection.StudentCourses
+
+            // Student enrolled courses
+            .Where(sc => sc.student_id == student_id)
+
+
+            // Get assignments of those courses
+            .Join(
+                _dbconnection.Assignments,
+                sc => sc.course_id,
+                assignment => assignment.course_id,
+                (sc, assignment) => new
+                {
+                    assignment
+                }
+            )
+
+
+            // Get course name
+            .Join(
+                _dbconnection.Courses,
+                x => x.assignment.course_id,
+                course => course.course_id,
+                (x, course) => new
+                {
+                    x.assignment.assignment_id,
+                    x.assignment.assignment_title,
+                    x.assignment.assignment_description,
+                    x.assignment.assignment_deadline,
+
+                    course_id = course.course_id,
+                    course_name = course.course_name
+                }
+            )
+
+
+            // Add submission status
+            .Select(x => new
+            {
+                x.assignment_id,
+                x.assignment_title,
+                x.assignment_description,
+                x.assignment_deadline,
+
+                x.course_id,
+                x.course_name,
+
+
+                status =
+                    _dbconnection.AssignmentSubmissions.Any(
+                        s =>
+                        s.assignment_id == x.assignment_id &&
+                        s.student_id == student_id
+                    )
+                    ?
+                    "Submitted"
+                    :
+                    "Pending"
+            })
+            .ToListAsync();
+
+        return Ok(assignments);
+    }
+
 }

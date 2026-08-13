@@ -113,4 +113,39 @@ public class TeacherCoursesController : ControllerBase
             message = "Teacher assignment removed."
         });
     }
+
+    [HttpGet("teacher/{teacherId}")]
+    public async Task<IActionResult> GetTeacherCourses(int teacherId)
+    {
+        var courses = await _dbconnection.TeacherCourses
+            .Where(tc => tc.teacher_id == teacherId)
+            .Join(
+                _dbconnection.Courses,
+                tc => tc.course_id,
+                course => course.course_id,
+                (tc, course) => new
+                {
+                    course_id = course.course_id,
+                    course_name = course.course_name,
+                    course_credit = course.course_credit,
+                    teacher_id = tc.teacher_id
+                }
+            )
+            .Join(
+                _dbconnection.Users,
+                tc => tc.teacher_id,
+                teacher => teacher.user_id,
+                (tc, teacher) => new
+                {
+                    tc.course_id,
+                    tc.course_name,
+                    tc.course_credit,
+                    teacher_id = teacher.user_id,
+                    teacher_name = teacher.user_name
+                }
+            )
+            .ToListAsync();
+
+        return Ok(courses);
+    }
 }

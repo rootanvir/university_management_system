@@ -11,11 +11,12 @@ public class ApplicationDbContext : DbContext
         : base(options)
     {
     }
-    public DbSet<Assignment> Assignments {get;set;}
-    public DbSet<MarkSheet> MarkSheet {get;set;}
-    public DbSet<Users> Users  {get;set;}
-    public DbSet<Courses> Courses  {get;set;}
+    public DbSet<Assignment> Assignments { get; set; }
+    public DbSet<MarkSheet> MarkSheet { get; set; }
+    public DbSet<Users> Users { get; set; }
+    public DbSet<Courses> Courses { get; set; }
     public DbSet<Session> Sessions { get; set; }
     public DbSet<TeacherCourse> TeacherCourses { get; set; }
-    
+    public DbSet<StudentCourse> StudentCourses { get; set; }
+    public DbSet<AssignmentSubmission> AssignmentSubmissions { get; set; }
 }
