@@ -11,6 +11,18 @@
           "lib/net10.0/BCrypt-Net-Next.dll": {}
         }
       },
+      "DotNetEnv/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Superpower": "3.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/DotNetEnv.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/DotNetEnv.dll": {}
+        }
+      },
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
@@ -682,6 +694,19 @@
           }
         }
       },
+      "Superpower/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/Superpower.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0/Superpower.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.CodeDom/6.0.0": {
         "type": "package",
         "compile": {
@@ -851,6 +876,20 @@
         "lib/netstandard2.1/BCrypt-Net-Next.dll",
         "lib/netstandard2.1/BCrypt.Net-Next.xml",
         "readme.md"
+      ]
+    },
+    "DotNetEnv/3.2.0": {
+      "sha512": "2q+PD+aJcRW9QuRcIv4F8WbvEDxI6cwxzZJec2i45cBY4cAKCAoW4ZPkApJ7H82wr6Yfmxx/0kb1nLnRmZrGZA==",
+      "type": "package",
+      "path": "dotnetenv/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "README.md",
+        "dotnetenv.3.2.0.nupkg.sha512",
+        "dotnetenv.nuspec",
+        "lib/netstandard2.0/DotNetEnv.dll"
       ]
     },
     "Humanizer.Core/2.14.1": {
@@ -2395,6 +2434,22 @@
         "postgresql.png"
       ]
     },
+    "Superpower/3.0.0": {
+      "sha512": "bjKbAYWePooCAvPxQq+3KnmcLfRggMyRoXmtBMlmCG71bdwBHrO6rmRJ2DRIodg5aztNcxeZXBUVWT+H+MZUhw==",
+      "type": "package",
+      "path": "superpower/3.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Superpower-White-400px.png",
+        "lib/net5.0/Superpower.dll",
+        "lib/net5.0/Superpower.xml",
+        "lib/netstandard2.0/Superpower.dll",
+        "lib/netstandard2.0/Superpower.xml",
+        "superpower.3.0.0.nupkg.sha512",
+        "superpower.nuspec"
+      ]
+    },
     "System.CodeDom/6.0.0": {
       "sha512": "CPc6tWO1LAer3IzfZufDBRL+UZQcj5uS207NHALQzP84Vp/z6wF0Aa0YZImOQY8iStY0A2zI/e3ihKNPfUm8XA==",
       "type": "package",
@@ -2611,6 +2666,7 @@
   "projectFileDependencyGroups": {
     "net10.0": [
       "BCrypt.Net-Next >= 4.2.0",
+      "DotNetEnv >= 3.2.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 10.0.10",
       "Microsoft.AspNetCore.OpenApi >= 10.0.9",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.10",
@@ -2667,6 +2723,10 @@
           "BCrypt.Net-Next": {
             "target": "Package",
             "version": "[4.2.0, )"
+          },
+          "DotNetEnv": {
+            "target": "Package",
+            "version": "[3.2.0, )"
           },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
@@ -3125,12 +3185,6 @@
     }
   },
   "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file D:\\onnorokom_projukti\\Backend\\obj\\project.nuget.cache : 'l' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0."
-    },
     {
       "code": "NU1903",
       "level": "Warning",

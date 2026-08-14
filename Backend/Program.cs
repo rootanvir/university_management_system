@@ -1,21 +1,27 @@
 using Backend.Data;
-using Microsoft.EntityFrameworkCore;
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Backend.Data;
 
+
+Env.Load();
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddOpenApi();
 builder.Services.AddControllers();
-
+builder.Services.AddOpenApi();
+var connectionString =
+    $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" +
+    $"Port={Environment.GetEnvironmentVariable("DB_PORT")};" +
+    $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
+    $"Username={Environment.GetEnvironmentVariable("DB_USERNAME")};" +
+    $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}";
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    )
+    options.UseNpgsql(connectionString)
 );
+
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("NextJs", policy =>
@@ -27,34 +33,62 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+
+var jwtKey =
+    Environment.GetEnvironmentVariable("JWT_KEY");
+
+var jwtIssuer =
+    Environment.GetEnvironmentVariable("JWT_ISSUER");
+
+var jwtAudience =
+    Environment.GetEnvironmentVariable("JWT_AUDIENCE");
+
+
+
+builder.Services
+    .AddAuthentication(
+        JwtBearerDefaults.AuthenticationScheme
+    )
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
 
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
+        options.TokenValidationParameters =
+            new TokenValidationParameters
+            {
 
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(
-                    builder.Configuration["Jwt:Key"]!
-                )
-            )
-        };
+                ValidateIssuer = true,
+
+                ValidateAudience = true,
+
+                ValidateLifetime = true,
+
+                ValidateIssuerSigningKey = true,
+
+
+                ValidIssuer = jwtIssuer,
+
+                ValidAudience = jwtAudience,
+
+
+                IssuerSigningKey =
+                    new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(
+                            jwtKey!
+                        )
+                    )
+
+            };
+
     });
-
 builder.Services.AddAuthorization();
+
 var app = builder.Build();
+
 app.UseCors("NextJs");
 
 app.UseAuthentication();
-app.UseAuthorization();
 
+app.UseAuthorization();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
