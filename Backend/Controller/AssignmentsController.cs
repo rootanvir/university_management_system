@@ -120,11 +120,20 @@ public class AssignmentsController : ControllerBase
                 (x, course) => new
                 {
                     x.assignment.assignment_id,
+
                     x.assignment.assignment_title,
+
                     x.assignment.assignment_description,
+
                     x.assignment.assignment_deadline,
 
+
+                    // ADD THIS
+                    x.assignment.total_mark,
+
+
                     course_id = course.course_id,
+
                     course_name = course.course_name
                 }
             )
@@ -134,11 +143,20 @@ public class AssignmentsController : ControllerBase
             .Select(x => new
             {
                 x.assignment_id,
+
                 x.assignment_title,
+
                 x.assignment_description,
+
                 x.assignment_deadline,
 
+
+                // ADD THIS
+                x.total_mark,
+
+
                 x.course_id,
+
                 x.course_name,
 
 
@@ -153,7 +171,9 @@ public class AssignmentsController : ControllerBase
                     :
                     "Pending"
             })
+
             .ToListAsync();
+
 
         return Ok(assignments);
     }

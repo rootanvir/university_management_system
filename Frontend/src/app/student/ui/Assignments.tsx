@@ -10,9 +10,9 @@ type Assignment = {
     assignment_deadline: string;
     course_id: number;
     course_name: string;
+    total_mark: number;
     status: string;
 };
-
 
 
 export default function Assignments() {
@@ -463,23 +463,53 @@ export default function Assignments() {
 
 
 
-                                        <div className="mt-5 rounded-lg border p-5">
+                                        <div className="mt-5 grid gap-4 md:grid-cols-2">
 
 
-                                            <h3 className="font-semibold">
-
-                                                Assignment Details
-
-                                            </h3>
+                                            <div className="rounded-lg border p-5">
 
 
-                                            <p className="mt-3 text-gray-600">
+                                                <h3 className="font-semibold">
+                                                    Assignment Details
+                                                </h3>
 
-                                                {
-                                                    assignment.assignment_description
-                                                }
 
-                                            </p>
+                                                <p className="mt-3 text-gray-600">
+
+                                                    {
+                                                        assignment.assignment_description
+                                                    }
+
+                                                </p>
+
+
+                                            </div>
+
+
+
+
+                                            <div className="rounded-lg border p-5">
+
+
+                                                <h3 className="font-semibold">
+                                                    Total Mark
+                                                </h3>
+
+
+                                                <p className="mt-3 text-gray-600">
+
+                                                    {
+                                                        assignment.total_mark
+                                                    }
+
+                                                    {" "}
+                                                    Marks
+
+                                                </p>
+
+
+                                            </div>
+
 
 
                                         </div>

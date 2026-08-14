@@ -3,11 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Models;
 
+
 [Table("assignment_submissions")]
 public class AssignmentSubmission
 {
+
     [Key]
     public int submission_id { get; set; }
+
 
 
     [Required]
@@ -16,6 +19,7 @@ public class AssignmentSubmission
 
     [ForeignKey("assignment_id")]
     public Assignment? Assignment { get; set; }
+
 
 
 
@@ -28,8 +32,28 @@ public class AssignmentSubmission
 
 
 
+
+
     public string file_name { get; set; } = string.Empty;
 
 
+
+
     public DateTime submitted_at { get; set; }
+
+
+
+    // Assignment total mark
+    public int total_mark { get; set; }
+
+
+
+    // Teacher will insert this later
+    public int? obtained_mark { get; set; }
+
+
+
+    // Teacher feedback
+    public string? feedback { get; set; }
+
 }
