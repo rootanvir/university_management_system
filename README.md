@@ -33,7 +33,7 @@ The system supports three types of users:
     ASP.NET Core Web API backend
 
 /database
-    BDSCRIPT.sql
+    DBSCRIPT.sql
     Database creation script
 ```
 
@@ -45,14 +45,14 @@ The database script is included in the repository.
 Database script location:
 
 ```
-/database/BDSCRIPT.sql
+/database/DBSCRIPT.sql
 ```
 
 
 To create the database:
 
 1. Open your database management tool.
-2. Execute the `BDSCRIPT.sql` file.
+2. Execute the `DBSCRIPT.sql` file.
 3. Update the backend database connection string.
 4. Run the backend API.
 
